@@ -1,4 +1,4 @@
-!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
@@ -10,53 +10,66 @@
             padding: 30px;
             text-align: center;
             color: #2c3e50;
+            font-size: 14px;
         }
 
         .container {
             display: flex;
-            justify-content: space-around;
+            justify-content: space-between;
+            align-items: flex-start;
             flex-wrap: wrap;
-            gap: 50px;
+            gap: 30px;
         }
 
         form {
             background-color: #ffffff;
-            padding: 25px;
+            padding: 20px;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
-            min-width: 320px;
-            flex: 1;
-            max-width: 500px;
+            flex-basis: 48%;
+            min-width: 300px;
+        }
+
+        h2 {
+            font-size: 18px;
+            margin-bottom: 10px;
         }
 
         label {
+            font-size: 13px;
             display: block;
             margin-top: 10px;
             font-weight: bold;
+            text-align: left;
         }
 
         input[type="text"],
-        input[type="number"] {
+        input[type="number"],
+        select {
             width: 100%;
-            padding: 8px;
+            padding: 6px;
             margin-top: 5px;
+            font-size: 13px;
         }
 
         .checkboxes label {
             font-weight: normal;
-            display: block;
+            font-size: 13px;
             margin-top: 5px;
+            display: block;
+            text-align: left;
         }
 
         button {
             margin-top: 20px;
             width: 100%;
-            padding: 10px;
+            padding: 8px;
             background-color: #2980b9;
             color: white;
             border: none;
             border-radius: 5px;
-            font-size: 16px;
+            font-size: 14px;
+            cursor: pointer;
         }
 
         .scroll-zone {
@@ -70,6 +83,17 @@
             text-align: left;
             white-space: pre-wrap;
             font-family: monospace;
+            font-size: 13px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+
+            form {
+                flex-basis: 100%;
+            }
         }
     </style>
 </head>
@@ -77,7 +101,7 @@
     <h1>🔎 Moteur Généalogique Unifié</h1>
 
     <div class="container">
-        <!-- Analyse Généalogique -->
+        <!-- 🔍 Analyse Généalogique -->
         <form method="post" action="/analyse">
             <h2>Analyse par critères</h2>
             <label>Profession :</label><input type="text" name="profession">
@@ -99,30 +123,35 @@
                 <label><input type="checkbox" name="etatcivil"> Acte d'état civil complet</label>
             </div>
 
+            <!-- 📂 Documents à consulter -->
             <label>Documents à consulter :</label>
-            <div class="checkboxes">
-                <label><input type="checkbox" name="documentation" value="fisc"> Fisc</label>
-                <label><input type="checkbox" name="documentation" value="cadastre"> Cadastre</label>
-                <label><input type="checkbox" name="documentation" value="notaire"> Notaire</label>
-                <label><input type="checkbox" name="documentation" value="militaire"> Militaire</label>
-                <label><input type="checkbox" name="documentation" value="administration"> Administration</label>
-				<label><input type="checkbox" name="enigme" value="enigme"> enigme</label>
-            </div>
+            <select name="documentation" multiple size="5">
+                <option value="fisc">Fisc</option>
+                <option value="cadastre">Cadastre</option>
+                <option value="notaire">Notaire</option>
+                <option value="militaire">Militaire</option>
+                <option value="administration">Administration</option>
+            </select>
 
             <button type="submit">Analyser</button>
 
-            <!-- Partie à interpréter par un moteur de template -->
-            <!-- Exemple : Flask / Django -->
             {% if message %}
             <div class="scroll-zone">{{ message|safe }}</div>
             {% endif %}
         </form>
 
-        <!-- Lecture de rubrique -->
+        <!-- 📘 Lecture de rubrique -->
         <form method="post" action="/profession">
             <h2>Lecture de rubrique</h2>
             <label for="lecture">Nom de la rubrique :</label>
-            <input type="text" name="lecture" id="lecture" placeholder="ex: militaire, notaire..." required>
+            <select name="lecture" id="lecture" required>
+                <option value="militaire">militaire</option>
+                <option value="notaire">notaire</option>
+                <option value="cadastre">cadastre</option>
+                <option value="fisc">fisc</option>
+                <option value="police">police</option>
+            </select>
+
             <button type="submit">Afficher rubrique</button>
 
             {% if lecture_result %}
