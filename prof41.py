@@ -69,7 +69,7 @@ def analyse():
 def profession():
     profession = request.form.get("lecture", "").lower()
 
-    if profession in ["militaire", "fisc", "cadastre", "police", "notaire"]:
+    if profession in ["militaire", "fisc", "cadastre", "police", "notaire", "enigme"]:
         contenu = lire_texte(f"{profession}.txt")
         message = f"📘 Contenu de la rubrique : {profession}\n\n{contenu}"
     else:
