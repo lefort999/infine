@@ -1,24 +1,3 @@
-
-from flask import Flask, request, render_template
-import os
-
-app = Flask(__name__)
-
-# 🔹 Fonction utilitaire
-def lire_texte(nom_fichier):
-    """Lit le contenu d'un fichier texte."""
-    try:
-        with open(nom_fichier, "r", encoding="utf-8") as fichier:
-            return fichier.read()
-    except FileNotFoundError:
-        return "⚠️ Information non disponible."
-
-# 🔹 Route principale
-@app.route("/")
-def home():
-    return render_template("index.html")
-
-# 🔹 Traitement du formulaire d’analyse
 @app.route("/analyse", methods=["POST"])
 def analyse():
     msg = []
@@ -26,13 +5,14 @@ def analyse():
     naissance = request.form.get("naissance", type=int)
     lieu = request.form.get("lieu_naissance", "").lower()
 
-caracteristiques = request.form.getlist("caracteristiques")
-militaire = "militaire" in caracteristiques
-blesse = "blesse" in caracteristiques
-officier = "officier" in caracteristiques
-celibataire = "celibataire" in caracteristiques
-etatcivil = "etatcivil" in caracteristiques
-doc_keywords = request.form.getlist("documentation")
+    caracteristiques = request.form.getlist("caracteristiques")
+    militaire = "militaire" in caracteristiques
+    blesse = "blesse" in caracteristiques
+    officier = "officier" in caracteristiques
+    celibataire = "celibataire" in caracteristiques
+    etatcivil = "etatcivil" in caracteristiques
+
+    doc_keywords = request.form.getlist("documentation")
 
     # 🧠 Analyse des règles
     if prof == "douanier" and naissance and 1760 < naissance < 1810:
@@ -64,19 +44,6 @@ doc_keywords = request.form.getlist("documentation")
         msg.append("🤷 Aucune règle déclenchée.")
 
     return render_template("index.html", message="<br><br>".join(msg))
-
-# 🔹 Consultation directe d’une rubrique professionnelle
-@app.route("/profession", methods=["POST"])
-def profession():
-    profession = request.form.get("lecture", "").lower()
-
-    if profession in ["militaire", "fisc", "cadastre", "police", "notaire", "enigme"]:
-        contenu = lire_texte(f"{profession}.txt")
-        message = f"📘 Contenu de la rubrique : {profession}\n\n{contenu}"
-    else:
-        message = f"❌ La rubrique « {profession} » est inconnue."
-
-    return render_template("index.html", lecture_result=message)
 
 # 🔹 Exécution de l’application Flask
 if __name__ == "__main__":
