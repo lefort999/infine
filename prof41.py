@@ -32,7 +32,7 @@ blesse = "blesse" in caracteristiques
 officier = "officier" in caracteristiques
 celibataire = "celibataire" in caracteristiques
 etatcivil = "etatcivil" in caracteristiques
-    doc_keywords = request.form.getlist("documentation")
+doc_keywords = request.form.getlist("documentation")
 
     # 🧠 Analyse des règles
     if prof == "douanier" and naissance and 1760 < naissance < 1810:
