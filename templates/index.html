@@ -131,13 +131,14 @@
     <input type="text" id="cp_deces" name="cp_deces" placeholder="ex: 75000" style="flex: 1;">
 </div>
 
-            <div class="checkboxes">
-                <label><input type="checkbox" name="militaire"> Militaire</label>
-                <label><input type="checkbox" name="blesse"> Blessé</label>
-                <label><input type="checkbox" name="officier"> Officier</label>
-                <label><input type="checkbox" name="celibataire"> Célibataire</label>
-                <label><input type="checkbox" name="etatcivil"> Acte d'état civil complet</label>
-            </div>
+    <label for="caracteristiques">Caractéristiques :</label>
+<select id="caracteristiques" name="caracteristiques" multiple size="5" style="width: 100%; padding: 8px;">
+    <option value="militaire">Militaire</option>
+    <option value="blesse">Blessé</option>
+    <option value="officier">Officier</option>
+    <option value="celibataire">Célibataire</option>
+    <option value="etatcivil">Acte d'état civil complet</option>
+</select>
 
             <label>Documents à consulter :</label>
             <div class="checkboxes">
