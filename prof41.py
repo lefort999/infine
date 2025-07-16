@@ -26,7 +26,7 @@ def analyse():
     naissance = request.form.get("naissance", type=int)
     lieu = request.form.get("lieu_naissance", "").lower()
 
-   caracteristiques = request.form.getlist("caracteristiques")
+caracteristiques = request.form.getlist("caracteristiques")
 militaire = "militaire" in caracteristiques
 blesse = "blesse" in caracteristiques
 officier = "officier" in caracteristiques
