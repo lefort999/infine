@@ -62,7 +62,7 @@ def analyse():
     if not msg:
         msg.append("🤷 Aucune règle déclenchée.")
 
-    return render_template("index.html", lecture_result=message)
+    return render_template("index.html", message="<br><br>".join(msg))
 
 # 🔹 Consultation directe d’une rubrique professionnelle
 @app.route("/profession", methods=["POST"])
