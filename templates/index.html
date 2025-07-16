@@ -131,15 +131,16 @@
     <input type="text" id="cp_deces" name="cp_deces" placeholder="ex: 75000" style="flex: 1;">
 </div>
 
-    <label for="caracteristiques">Caractéristiques :</label>
-<select id="caracteristiques" name="caracteristiques" multiple size="5" style="width: 100%; padding: 8px;">
-    <option value="militaire">Militaire</option>
-    <option value="blesse">Blessé</option>
-    <option value="officier">Officier</option>
-    <option value="celibataire">Célibataire</option>
-    <option value="etatcivil">Acte d'état civil complet</option>
-</select>
-
+<div style="display: flex; align-items: center; gap: 15px; margin-top: 20px; margin-bottom: 12px;">
+    <label for="caracteristiques" style="min-width: 140px;">Caractéristiques :</label>
+    <select id="caracteristiques" name="caracteristiques" multiple size="5" style="flex: 1; padding:8px; border-radius:5px; border:1px solid #ccc; background-color:#fff;">
+        <option value="militaire">Militaire</option>
+        <option value="blesse">Blessé</option>
+        <option value="officier">Officier</option>
+        <option value="celibataire">Célibataire</option>
+        <option value="etatcivil">Acte d'état civil complet</option>
+    </select>
+</div>
            <!-- 🔽 Liste déroulante de professions documentables -->
 <div style="display: flex; align-items: center; gap: 15px; margin-top: 20px; margin-bottom: 12px;">
     <label for="documentation" style="min-width: 140px;">Professions à documenter :</label>
