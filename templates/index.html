@@ -140,15 +140,20 @@
     <option value="etatcivil">Acte d'état civil complet</option>
 </select>
 
-            <label>Documents à consulter :</label>
-            <div class="checkboxes">
-                <label><input type="checkbox" name="documentation" value="fisc"> Fisc</label>
-                <label><input type="checkbox" name="documentation" value="cadastre"> Cadastre</label>
-                <label><input type="checkbox" name="documentation" value="notaire"> Notaire</label>
-                <label><input type="checkbox" name="documentation" value="militaire"> Militaire</label>
-                <label><input type="checkbox" name="documentation" value="administration"> Administration</label>
-				<label><input type="checkbox" name="documentation" value="enigme"> enigme</label>
-            </div>
+           <!-- 🔽 Liste déroulante de professions documentables -->
+<div style="display: flex; align-items: center; gap: 15px; margin-top: 20px; margin-bottom: 12px;">
+    <label for="documentation" style="min-width: 140px;">Professions à documenter :</label>
+    <select id="documentation" name="documentation" multiple size="5" style="flex: 1; padding:8px; border-radius:5px; border:1px solid #ccc; background-color:#fff;">
+        <option value="militaire">Militaire</option>
+        <option value="fisc">Fisc</option>
+        <option value="cadastre">Cadastre</option>
+        <option value="police">Police</option>
+        <option value="notaire">Notaire</option>
+        <option value="administration">Administration</option>
+        <option value="enigme">Énigme</option>
+    </select>
+</div>
+<small style="color:#555;">💡 Astuce : utilisez Ctrl (Cmd sur Mac) pour sélection multiple</small>
 
             <button type="submit">Analyser</button>
 
