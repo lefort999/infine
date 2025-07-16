@@ -43,7 +43,7 @@ def analyse():
     if prof == "orfèvre":
         msg.append("💎 Orfèvre : consulter les registres de poinçons.")
 
-    if militaire and officier and blesse:
+    if militaire :
         msg.append("🎖️ Militaire blessé/officier : consulter les registres militaires.")
 
     if celibataire and etatcivil:
