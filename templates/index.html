@@ -163,28 +163,9 @@
             {% if message %}
             <div class="scroll-zone">{{ message|safe }}</div>
             {% endif %}
-        </form>
+       
 
-        <!-- Lecture de rubrique -->
-        <form method="post" action="/profession">
-            <h2>Lecture de rubrique</h2>
-            <label for="lecture">Rubrique à afficher :</label>
-<select name="lecture" id="lecture" required style="padding:8px; border-radius:5px; border:1px solid #ccc; background-color:#fff;">
-    <option value="">-- Choisir une rubrique --</option>
-    <option value="militaire">Militaire</option>
-    <option value="fisc">Fisc</option>
-    <option value="cadastre">Cadastre</option>
-    <option value="police">Police</option>
-    <option value="notaire">Notaire</option>
-    <option value="administration">Administration</option>
-    <option value="enigme">Énigme</option>
-</select>
-            <button type="submit">Afficher rubrique</button>
-
-            {% if lecture_result %}
-            <div class="scroll-zone">{{ lecture_result }}</div>
-            {% endif %}
-        </form>
+      
     </div>
 </body>
 </html>
