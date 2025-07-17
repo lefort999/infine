@@ -22,18 +22,24 @@ def home():
 @app.route("/analyse", methods=["POST"])
 def analyse():
     msg = []
+
+    # 🔎 Extraction des données du formulaire
     prof = request.form.get("profession", "").lower()
     naissance = request.form.get("naissance", type=int)
     lieu = request.form.get("lieu_naissance", "").lower()
 
-    militaire = "militaire" in request.form
-    blesse = "blesse" in request.form
-    officier = "officier" in request.form
-    celibataire = "celibataire" in request.form
-    etatcivil = "etatcivil" in request.form
+    # ✅ Récupération des caractéristiques (select multiple)
+    caracteristiques = request.form.getlist("caracteristiques")
+    militaire = "militaire" in caracteristiques
+    blesse = "blesse" in caracteristiques
+    officier = "officier" in caracteristiques
+    celibataire = "celibataire" in caracteristiques
+    etatcivil = "etatcivil" in caracteristiques
+
+    # 📚 Récupération des mots-clés documentaires (select multiple)
     doc_keywords = request.form.getlist("documentation")
 
-    # 🧠 Analyse des règles
+    # 📜 Analyse des règles généalogiques
     if prof == "douanier" and naissance and 1760 < naissance < 1810:
         msg.append("📂 Douanier né entre 1760–1810 : dossier aux Archives nationales (F/12, F/14).")
 
@@ -43,13 +49,13 @@ def analyse():
     if prof == "orfèvre":
         msg.append("💎 Orfèvre : consulter les registres de poinçons.")
 
-    if militaire :
+    if militaire or blesse or officier:
         msg.append("🎖️ Militaire blessé/officier : consulter les registres militaires.")
 
-    if celibataire :
+    if celibataire and etatcivil:
         msg.append("📜 Célibataire avec acte complet : voir actes notariés et mentions marginales.")
 
-    # 📄 Chargement des fichiers documentaires
+    # 📄 Chargement des fichiers documentaire demandés
     for mot_cle in doc_keywords:
         fichier = f"{mot_cle}.txt"
         try:
@@ -59,23 +65,12 @@ def analyse():
         except FileNotFoundError:
             msg.append(f"❌ Le fichier <strong>{fichier}</strong> est introuvable.")
 
+    # 🕵️ Si aucune règle ne s'applique
     if not msg:
         msg.append("🤷 Aucune règle déclenchée.")
 
+    # 💬 Affichage du message
     return render_template("index.html", message="<br><br>".join(msg))
-
-# 🔹 Consultation directe d’une rubrique professionnelle
-@app.route("/profession", methods=["POST"])
-def profession():
-    profession = request.form.get("lecture", "").lower()
-
-    if profession in ["militaire", "fisc", "cadastre", "police", "notaire", "enigme"]:
-        contenu = lire_texte(f"{profession}.txt")
-        message = f"📘 Contenu de la rubrique : {profession}\n\n{contenu}"
-    else:
-        message = f"❌ La rubrique « {profession} » est inconnue."
-
-    return render_template("index.html", lecture_result=message)
 
 # 🔹 Exécution de l’application Flask
 if __name__ == "__main__":
