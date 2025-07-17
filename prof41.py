@@ -71,7 +71,24 @@ def analyse():
 
     # 💬 Affichage du message
     return render_template("index.html", message="<br><br>".join(msg))
+# 🔽 Route pour afficher le contenu d'une rubrique documentaire
+@app.route('/profession', methods=['POST'])
+def lecture_rubrique():
+    rubrique = request.form.get('lecture')
 
+    if not rubrique:
+        contenu = "⚠️ Aucune rubrique sélectionnée."
+    else:
+        chemin_fichier = os.path.join("rubriques", f"{rubrique}.txt")
+        try:
+            with open(chemin_fichier, "r", encoding="utf-8") as fichier:
+                contenu = fichier.read()
+        except FileNotFoundError:
+            contenu = f"❌ Le fichier '{rubrique}.txt' est introuvable."
+        except Exception as e:
+            contenu = f"⚠️ Erreur lors de la lecture : {str(e)}"
+
+    return render_template("index.html", lecture_result=contenu)
 # 🔹 Exécution de l’application Flask
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 10000))
