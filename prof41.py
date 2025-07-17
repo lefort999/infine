@@ -46,7 +46,7 @@ def analyse():
     if militaire :
         msg.append("🎖️ Militaire blessé/officier : consulter les registres militaires.")
 
-    if celibataire and etatcivil:
+    if celibataire :
         msg.append("📜 Célibataire avec acte complet : voir actes notariés et mentions marginales.")
 
     # 📄 Chargement des fichiers documentaires
