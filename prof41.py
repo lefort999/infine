@@ -1,13 +1,16 @@
 from flask import Flask, render_template
-import os
-
 app = Flask(__name__)
 
-@app.route("/")  # 👈 Cette ligne gère la page d’accueil
+# Page d'accueil avec la liste des prénoms
+@app.route("/")
 def accueil():
-    return render_template("index.html")  # 👈 Ton fichier HTML doit être dans le dossier "templates"
+    noms = ["Jacques", "Paul", "Jean", "Pierre"]
+    return render_template("index.html", noms=noms)
 
-# 🔹 Exécution de l’application Flask
+# Page personnalisée pour chaque prénom
+@app.route("/bonjour/<prenom>")
+def bonjour(prenom):
+    return render_template("bonjour.html", prenom=prenom)
+
 if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 10000))
-    app.run(host="0.0.0.0", port=port)
+    app.run(host="0.0.0.0", port=10000)
