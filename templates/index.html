@@ -2,10 +2,14 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Bienvenue Jacques</title>
+    <title>Liste des prénoms</title>
 </head>
 <body>
-    <h1>Bonjour Jacques 👋</h1>
-    <p>Ton application Flask fonctionne parfaitement !</p>
+    <h1>Choisissez un prénom :</h1>
+    <ul>
+        {% for nom in noms %}
+            <li><a href="/bonjour/{{ nom }}">{{ nom }}</a></li>
+        {% endfor %}
+    </ul>
 </body>
 </html>
