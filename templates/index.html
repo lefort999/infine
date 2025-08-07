@@ -2,13 +2,13 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Liste des prénoms</title>
+    <title>Liste des épisodes</title>
 </head>
 <body>
-    <h1>Choisissez un prénom :</h1>
+    <h1>Choisissez un épisode :</h1>
     <ul>
-        {% for nom in noms %}
-            <li><a href="/bonjour/{{ nom }}">{{ nom }}</a></li>
+        {% for nom in episodes %}
+            <li><a href="/episode/{{ nom }}">{{ nom.replace('-', ' ').capitalize() }}</a></li>
         {% endfor %}
     </ul>
 </body>
