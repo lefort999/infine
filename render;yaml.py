@@ -1,0 +1,6 @@
+services:
+  - type: web
+    name: derder
+    env: python
+    buildCommand: ""
+    startCommand: gunicorn der:app
