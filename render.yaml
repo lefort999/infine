@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: pilotageter
+    name: derder
     env: python
-    buildCommand: "pip install -r requirements.txt"
-    startCommand: "python prof6.py"
+    buildCommand: ""
+    startCommand: gunicorn der:app

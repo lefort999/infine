@@ -1,7 +1,7 @@
 from flask import Flask
-der = Flask(__name__)
-@der.route('/')
+
+app = Flask(__name__)
+
+@app.route('/')
 def home():
-    return "bienvenue"
-if __name__ == '__main__':    
-    der.run(debug=True)
+    return "Bienvenue sur derder !"
