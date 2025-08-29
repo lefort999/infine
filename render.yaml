@@ -3,4 +3,4 @@ services:
     name: derder
     env: python
     buildCommand: ""
-    startCommand: gunicorn der:app
+    startCommand: gunicorn app:app
