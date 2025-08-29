@@ -1,8 +1,0 @@
-"# azerto" 
-"# essai" 
-"# bonsoir" 
-"# bonsoir" 
-"# lafin" 
-"# derder" 
-"# derder" 
-"# desespoir" 
