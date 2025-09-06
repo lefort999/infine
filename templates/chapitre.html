@@ -1,24 +1,32 @@
 <!doctype html>
 <html lang="fr">
 <head>
-  <meta charset="utf-8" />
-  <title>{{ nom|capitalize }}</title>
-  <style>
-    img { max-width: 100%; height: auto; display:block; margin: 0 0 1rem 0; }
-    .contenu { white-space: pre-wrap; }
-  </style>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>{{ nom|capitalize }}</title>
+<style>
+body {
+max-width: 900px;
+margin: 40px auto;
+padding: 0 24px;
+font-family: Arial, sans-serif;
+line-height: 1.8;
+}
+img { max-width: 100%; height: auto; display:block; margin: 0 0 1rem 0; }
+.contenu { white-space: pre-wrap; font-size: 1.1em; }
+a { text-decoration: none; }
+</style>
 </head>
 <body>
-  <h1>{{ nom|capitalize }}</h1>
-  <div class="contenu">{{ contenu }}</div>
+<p><a href="{{ url_for('accueil') }}">← Retour</a></p>
+<h1>{{ nom|capitalize }}</h1>
 
-  {% if images_urls %}
-    <h2>Illustrations</h2>
-    {% for src in images_urls %}
-      <img src="{{ src }}" alt="{{ nom }} illustration {{ loop.index }}">
-    {% endfor %}
-  {% else %}
-    <p><em>Aucune image.</em></p>
-  {% endif %}
+
+{% if image_url %}
+<img src="{{ image_url }}" alt="Illustration de {{ nom }}">
+{% endif %}
+
+
+<div class="contenu">{{ contenu }}</div>
 </body>
 </html>
