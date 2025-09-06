@@ -1,59 +1,60 @@
+from flask import Flask, render_template, abort
 import os
-from flask import Flask, render_template, url_for, abort
+import re
 
+# Dossiers de base (à côté de app.py)
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+CHAPTER_DIR = os.path.join(BASE_DIR, "chapters")  # <- tes chapX.txt sont ici
 
-app = Flask(__name__) # Utilise automatiquement le dossier ./static
+# Flask servira automatiquement /static/* depuis le dossier "static"
+app = Flask(__name__, static_folder="static", static_url_path="/static")
 
+def find_image_for(n: int):
+    """
+    Retourne l’URL de l’image si trouvée dans /static, sinon None.
+    Gère .jpg, .jpeg, .png, .webp
+    """
+    candidates = [f"chap{n}.jpg", f"chap{n}.jpeg", f"chap{n}.png", f"chap{n}.webp"]
+    for name in candidates:
+        path = os.path.join(app.static_folder, name)
+        if os.path.exists(path):
+            return f"/static/{name}"
+    return None
 
-CHAPITRES = [
-"chapitre1","chapitre2","chapitre3","chapitre4","chapitre5",
-"chapitre6","chapitre7","chapitre8","chapitre9","chapitre10",
-"chapitre11","chapitre12","chapitre13","chapitre14","chapitre15"
-]
-
+def list_chapters():
+    """
+    Retourne la liste triée des numéros trouvés dans chapters/ (chapX.txt).
+    """
+    nums = []
+    if not os.path.isdir(CHAPTER_DIR):
+        return nums
+    for fn in os.listdir(CHAPTER_DIR):
+        m = re.fullmatch(r"chap(\d+)\.txt", fn, re.IGNORECASE)
+        if m:
+            nums.append(int(m.group(1)))
+    return sorted(nums)
 
 @app.route("/")
-def accueil():
-return render_template("index.html", chapitres=CHAPITRES)
+def index():
+    chapters = list_chapters()
+    return render_template("index.html", chapters=chapters)
 
+@app.route("/chap/<int:n>")
+def chapter(n: int):
+    txt_path = os.path.join(CHAPTER_DIR, f"chap{n}.txt")
+    if not os.path.exists(txt_path):
+        abort(404, description=f"chap{n}.txt introuvable")
 
-@app.route("/chapitre/<nom>")
-def afficher_chapitre(nom):
-# Autorise uniquement les chapitres connus
-if nom not in CHAPITRES:
-abort(404)
+    # utf-8-sig tolère un éventuel BOM des fichiers enregistrés depuis certains éditeurs
+    with open(txt_path, "r", encoding="utf-8-sig") as f:
+        content = f.read()
 
-
-# Texte du chapitre (fichiers à la racine: chapitreX.txt)
-chemin_txt = os.path.join(os.getcwd(), f"{nom}.txt")
-try:
-with open(chemin_txt, "r", encoding="utf-8") as f:
-contenu = f.read()
-except FileNotFoundError:
-contenu = "Chapitre introuvable."
-
-
-# Une et une seule image: static/<nom>.jpg (facultative)
-image_path = os.path.join(app.static_folder, f"{nom}.jpg")
-image_url = url_for("static", filename=f"{nom}.jpg") if os.path.isfile(image_path) else None
-
-
-return render_template("chapitre.html", nom=nom, contenu=contenu, image_url=image_url)
-
-
-
-
-@app.errorhandler(404)
-def not_found(e):
-return render_template("404.html"), 404
-
-
-
+    img_url = find_image_for(n)  # None si pas d’image
+    return render_template("chapter.html", n=n, content=content, img_url=img_url)
 
 if __name__ == "__main__":
-port = int(os.environ.get("PORT", 10000))
-app.run(host="0.0.0.0", port=port)
-
+    # Lance en local: http://127.0.0.1:5000/
+    app.run(debug=True)
 
 
 
