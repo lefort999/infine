@@ -1,43 +1,85 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <title>Bienvenue</title>
-    <style>
-        body {
-            max-width: 1000px;
-            margin: 40px auto;
-            padding-left: 40px;
-            padding-right: 40px;
-            font-family: Arial, sans-serif;
-            background-color: #fdfcf8;
-            color: #333;
-            font-size: 1.2em;
-            line-height: 1.8;
-        }
-        h1 { font-size: 2em; color: #2c3e50; }
-        p { margin-bottom: 1em; font-size: 1.1em; }
-        ul { list-style-type: square; padding-left: 20px; }
-        li { font-size: 1.2em; }
-        a { text-decoration: none; color: #0077cc; font-weight: bold; }
-        a:hover { text-decoration: underline; }
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{{ nom|capitalize }}</title>
+  <style>
+    body {
+      max-width: 1000px;
+      margin: 40px 20px;
+      font-family: Georgia, serif;
+      font-size: 1.3em;
+      line-height: 1.8;
+      background-color: #fdfcf8;
+      color: #333;
+      padding-left: 10px;
+    }
+    h1 { font-size: 2em; color: #2c3e50; }
 
-        @media (max-width: 600px) {
-            body { padding-left: 20px; padding-right: 20px; font-size: 1em; }
-            h1 { font-size: 1.5em; }
-            li { font-size: 1em; }
-        }
-    </style>
+    /* Mise en page : texte à gauche, images à droite */
+    .layout {
+      display: flex;
+      align-items: flex-start;
+      gap: 24px;
+    }
+    .texte {
+      flex: 1 1 auto;
+      min-width: 0;
+    }
+    .col-images {
+      flex: 0 0 320px;
+      max-width: 40%;
+    }
+    .image-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 16px; /* espace vertical entre images */
+    }
+    .image-stack img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 8px;
+    }
+
+    pre {
+      white-space: pre-wrap;
+      font-size: 1.3em;
+      line-height: 1.6;
+      font-family: inherit;
+      margin: 0;
+    }
+
+    a { text-decoration: none; color: #0077cc; }
+    a:hover { text-decoration: underline; }
+
+    /* Responsive : sur mobile, on empile */
+    @media (max-width: 768px) {
+      .layout { flex-direction: column; }
+      .col-images { max-width: 100%; flex-basis: auto; }
+    }
+  </style>
 </head>
 <body>
-    <h1>Bienvenue sur le récit 📖</h1>
-    <p><strong>Lefort garde :</strong> « Voici leur histoire »</p>
+  <h1>{{ nom|capitalize }}</h1>
 
-    <p>Choisissez un chapitre :</p>
-    <ul>
-        {% for nom in chapitres %}
-            <li><a href="/chapitre/{{ nom }}">{{ nom|capitalize }}</a></li>
-        {% endfor %}
-    </ul>
+  <div class="layout">
+    <div class="texte">
+      <pre>{{ contenu }}</pre>
+    </div>
+
+    {% if images_urls and images_urls|length > 0 %}
+      <aside class="col-images">
+        <div class="image-stack">
+          {% for img in images_urls %}
+            <img src="{{ img }}" alt="Illustration de {{ nom }} ({{ loop.index }})">
+          {% endfor %}
+        </div>
+      </aside>
+    {% endif %}
+  </div>
+
+  <p><a href="/">← Retour à l’accueil</a></p>
 </body>
 </html>
