@@ -1,32 +1,78 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>{{ nom|capitalize }}</title>
-<style>
-body {
-max-width: 900px;
-margin: 40px auto;
-padding: 0 24px;
-font-family: Arial, sans-serif;
-line-height: 1.8;
-}
-img { max-width: 100%; height: auto; display:block; margin: 0 0 1rem 0; }
-.contenu { white-space: pre-wrap; font-size: 1.1em; }
-a { text-decoration: none; }
-</style>
+    <meta charset="UTF-8">
+    <title>Bienvenue</title>
+    <style>
+        body {
+            max-width: 1000px;           /* # largeur maximale du contenu */
+            margin: 40px auto;           /* # centrage horizontal */
+            padding-left: 40px;          /* # marge intérieure gauche */
+            padding-right: 40px;         /* # marge intérieure droite */
+            font-family: Arial, sans-serif;
+            background-color: #fdfcf8;
+            color: #333;
+            font-size: 1.2em;            /* # taille du texte principale */
+            line-height: 1.8;            /* # espacement vertical agréable */
+        }
+
+        h1 {
+            font-size: 2em;
+            color: #2c3e50;
+        }
+
+        p {
+            margin-bottom: 1em;
+            font-size: 1.1em;
+        }
+
+        ul {
+            list-style-type: square;
+            padding-left: 20px;
+        }
+
+        li {
+            font-size: 1.2em;
+        }
+
+        a {
+            text-decoration: none;
+            color: #0077cc;
+            font-weight: bold;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        /* ✅ Responsive pour petits écrans */
+        @media (max-width: 600px) {
+            body {
+                padding-left: 20px;
+                padding-right: 20px;
+                font-size: 1em;
+            }
+
+            h1 {
+                font-size: 1.5em;
+            }
+
+            li {
+                font-size: 1em;
+            }
+        }
+    </style>
 </head>
 <body>
-<p><a href="{{ url_for('accueil') }}">← Retour</a></p>
-<h1>{{ nom|capitalize }}</h1>
+    <h1>Bienvenue sur le récit des parents chapitre1, des grands parents chapitre 2,3 des ar-grands-parents chapitre 4,5,6,7....etc 📖</h1>
 
+    <p><strong>Lefort garde :</strong> « Voici leur histoire »</p>
 
-{% if image_url %}
-<img src="{{ image_url }}" alt="Illustration de {{ nom }}">
-{% endif %}
-
-
-<div class="contenu">{{ contenu }}</div>
+    <p>Choisissez un chapitre :</p>
+    <ul>
+        {% for nom in chapitres %}
+            <li><a href="/chapitre/{{ nom }}">{{ nom.capitalize() }}</a></li>
+        {% endfor %}
+    </ul>
 </body>
 </html>
