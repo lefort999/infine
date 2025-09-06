@@ -2,84 +2,23 @@
 <html lang="fr">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>{{ nom|capitalize }}</title>
   <style>
-    body {
-      max-width: 1000px;
-      margin: 40px 20px;
-      font-family: Georgia, serif;
-      font-size: 1.3em;
-      line-height: 1.8;
-      background-color: #fdfcf8;
-      color: #333;
-      padding-left: 10px;
-    }
-    h1 { font-size: 2em; color: #2c3e50; }
-
-    /* Mise en page : texte à gauche, images à droite */
-    .layout {
-      display: flex;
-      align-items: flex-start;
-      gap: 24px;
-    }
-    .texte {
-      flex: 1 1 auto;
-      min-width: 0;
-    }
-    .col-images {
-      flex: 0 0 320px;
-      max-width: 40%;
-    }
-    .image-stack {
-      display: flex;
-      flex-direction: column;
-      gap: 16px; /* espace vertical entre images */
-    }
-    .image-stack img {
-      width: 100%;
-      height: auto;
-      display: block;
-      border-radius: 8px;
-    }
-
-    pre {
-      white-space: pre-wrap;
-      font-size: 1.3em;
-      line-height: 1.6;
-      font-family: inherit;
-      margin: 0;
-    }
-
-    a { text-decoration: none; color: #0077cc; }
-    a:hover { text-decoration: underline; }
-
-    /* Responsive : sur mobile, on empile */
-    @media (max-width: 768px) {
-      .layout { flex-direction: column; }
-      .col-images { max-width: 100%; flex-basis: auto; }
-    }
+    img { max-width: 100%; height: auto; display:block; margin: 0 0 1rem 0; }
+    .contenu { white-space: pre-wrap; }
   </style>
 </head>
 <body>
   <h1>{{ nom|capitalize }}</h1>
+  <div class="contenu">{{ contenu }}</div>
 
-  <div class="layout">
-    <div class="texte">
-      <pre>{{ contenu }}</pre>
-    </div>
-
-    {% if images_urls and images_urls|length > 0 %}
-      <aside class="col-images">
-        <div class="image-stack">
-          {% for img in images_urls %}
-            <img src="{{ img }}" alt="Illustration de {{ nom }} ({{ loop.index }})">
-          {% endfor %}
-        </div>
-      </aside>
-    {% endif %}
-  </div>
-
-  <p><a href="/">← Retour à l’accueil</a></p>
+  {% if images_urls %}
+    <h2>Illustrations</h2>
+    {% for src in images_urls %}
+      <img src="{{ src }}" alt="{{ nom }} illustration {{ loop.index }}">
+    {% endfor %}
+  {% else %}
+    <p><em>Aucune image.</em></p>
+  {% endif %}
 </body>
 </html>
