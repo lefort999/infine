@@ -3,7 +3,7 @@ import os
 
 app = Flask(__name__)  # static/ est utilisé par défaut comme dossier de fichiers statiques
 
-CHAPITRES = ["chapitre1", "chapitre2", "chapitre3", "chapitre4","chapitre5","chapitre6","chapitre7","chapitre8","chapitre9"]
+CHAPITRES = ["chapitre1", "chapitre2", "chapitre3", "chapitre4","chapitre5","chapitre6","chapitre7","chapitre8","chapitre9"chapitre10"]
 
 @app.route("/")
 def accueil():
@@ -38,6 +38,7 @@ if __name__ == "__main__":
     import os
     port = int(os.environ.get("PORT", 10000))
     app.run(host="0.0.0.0", port=port)
+
 
 
 
