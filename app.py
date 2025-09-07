@@ -8,7 +8,7 @@ CHAPITRES = [
     "chapitre5","chapitre6","chapitre7","chapitre8",
     "chapitre9","chapitre10", "chapitre11", "chapitre12",
     "chapitre13","chapitre14","chapitre15","chapitre16",
-    "chapitre17","chapitre18","chapitre19","chapitre20"
+    "chapitre17","chapitre18","chapitre19","chapitre20",
      "chapitre21", "chapitre22", "chapitre3", "chapitre4",
     "chapitre5","chapitre6","chapitre7","chapitre23",
     "chapitre24","chapitre25", "chapitre25", "chapitre27",
@@ -48,6 +48,7 @@ if __name__ == "__main__":
     import os
     port = int(os.environ.get("PORT", 10000))
     app.run(host="0.0.0.0", port=port)
+
 
 
 
