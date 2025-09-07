@@ -9,11 +9,11 @@ CHAPITRES = [
     "chapitre9","chapitre10", "chapitre11", "chapitre12",
     "chapitre13","chapitre14","chapitre15","chapitre16",
     "chapitre17","chapitre18","chapitre19","chapitre20",
-     "chapitre21", "chapitre22", "chapitre3", "chapitre4",
-    "chapitre5","chapitre6","chapitre7","chapitre23",
-    "chapitre24","chapitre25", "chapitre25", "chapitre27",
-    "chapitre28","chapitre29","chapitre30","chapitre31",
-    "chapitre32",
+     "chapitre21", "chapitre22", "chapitre23", "chapitre4",
+    "chapitre25","chapitre26","chapitre27","chapitre28",
+    "chapitre29","chapitre30", "chapitre31", "chapitre32",
+    "chapitre33","chapitre34","chapitre35 ","chapitre36",
+    "chapitre37",
 ]
 @app.route("/")
 def accueil():
@@ -48,6 +48,7 @@ if __name__ == "__main__":
     import os
     port = int(os.environ.get("PORT", 10000))
     app.run(host="0.0.0.0", port=port)
+
 
 
 
