@@ -6,54 +6,57 @@
   <title>{{ nom|capitalize }}</title>
   <style>
     body {
-      max-width: 1000px;
-      margin: 40px 20px;
-      font-family: Georgia, serif;
-      font-size: 1.3em;
-      line-height: 1.8;
-      background-color: #fdfcf8;
-      color: #333;
-      padding-left: 10px;
-    }
-    h1 { font-size: 2em; color: #2c3e50; }
+    max-width: 1100px;
+    margin: 40px 20px;
+    font-family: Georgia, serif;
+    font-size: 1.3em;
+    line-height: 1.8;
+    background-color: #fdfcf8;
+    color: #333;
+    padding-left: 10px;
+  }
+  h1 { font-size: 2em; color: #2c3e50; }
 
-    /* Mise en page : texte à gauche, image à droite */
-    .layout {
-      display: flex;
-      align-items: flex-start;
-      gap: 24px;
-    }
-    .texte {
-      flex: 1 1 auto;
-      min-width: 0; /* évite les débordements */
-    }
-    .image {
-      flex: 0 0 320px; /* largeur de colonne image */
-      max-width: 40%;
-    }
-    .image img {
-      width: 66%;
-      height: auto;
-      display: block;
-      border-radius: 8px;
-    }
+  /* Texte à gauche, image à droite */
+  .layout {
+    display: flex;
+    align-items: flex-start;
+    gap: 24px;
+  }
+  .texte {
+    flex: 1 1 0;
+    min-width: 0;
+  }
+  .image {
+    /* colonne plus large et plafonnée */
+    flex: 0 0 clamp(360px, 40vw, 640px);
+    max-width: 50%;
+  }
+  .image img {
+    display: block;
+    width: 100%;       /* occupe toute la colonne */
+    height: auto;      /* conserve les proportions */
+    max-height: 85vh;  /* évite une image plus haute que l’écran */
+    object-fit: contain;
+    border-radius: 8px;
+  }
 
-    pre {
-      white-space: pre-wrap;
-      font-size: 1.3em;
-      line-height: 1.6;
-      font-family: inherit;
-      margin: 0;
-    }
+  pre {
+    white-space: pre-wrap;
+    font-size: 1.3em;
+    line-height: 1.6;
+    font-family: inherit;
+    margin: 0;
+  }
 
-    a { text-decoration: none; color: #0077cc; }
-    a:hover { text-decoration: underline; }
+  a { text-decoration: none; color: #0077cc; }
+  a:hover { text-decoration: underline; }
 
-    /* Responsive : sur mobile, on empile */
-    @media (max-width: 768px) {
-      .layout { flex-direction: column; }
-      .image { max-width: 100%; flex-basis: auto; }
-    }
+  /* Mobile : on empile */
+  @media (max-width: 768px) {
+    .layout { flex-direction: column; }
+    .image { max-width: 100%; flex-basis: auto; }
+  }
   </style>
 </head>
 <body>
@@ -66,12 +69,23 @@
 
     {% if image_url %}
       <aside class="image">
-        <img src="{{ image_url }}" alt="Illustration de {{ nom }}" style="width:300px; height:auto;">
-      </aside>
+	  <img src="{{ image_url }}" alt="Illustration de {{ nom }}" loading="lazy">
+	  
+	  
+	   
+	  
+	  
+       
+      
+	  
+	
+	  
+	  </aside>
     {% endif %}
   </div>
 
   <p><a href="/">← Retour à l’accueil</a></p>
 </body>
 </html>
+
 
