@@ -5,58 +5,82 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>{{ nom|capitalize }}</title>
   <style>
+    :root {
+      --gap: 16px;
+      --colw-min: 140px;
+      --colw-max: 1fr;
+    }
+
     body {
-    max-width: 1100px;
-    margin: 40px 20px;
-    font-family: Georgia, serif;
-    font-size: 1.3em;
-    line-height: 1.8;
-    background-color: #fdfcf8;
-    color: #333;
-    padding-left: 10px;
-  }
-  h1 { font-size: 2em; color: #2c3e50; }
+      max-width: 1100px;
+      margin: 40px 20px;
+      font-family: Georgia, serif;
+      font-size: 1.3em;
+      line-height: 1.8;
+      background-color: #fdfcf8;
+      color: #333;
+      padding-left: 10px;
+    }
+    h1 { font-size: 2em; color: #2c3e50; }
 
-  /* Texte à gauche, image à droite */
-  .layout {
-    display: flex;
-    align-items: flex-start;
-    gap: 24px;
-  }
-  .texte {
-    flex: 1 1 0;
-    min-width: 0;
-  }
-  .image {
-    /* colonne plus large et plafonnée */
-    flex: 0 0 clamp(360px, 40vw, 640px);
-    max-width: 50%;
-  }
-  .image img {
-    display: block;
-    width: 100%;       /* occupe toute la colonne */
-    height: auto;      /* conserve les proportions */
-    max-height: 85vh;  /* évite une image plus haute que l’écran */
-    object-fit: contain;
-    border-radius: 8px;
-  }
+    /* Texte à gauche, images à droite */
+    .layout {
+      display: flex;
+      align-items: flex-start;
+      gap: 24px;
+    }
+    .texte {
+      flex: 1 1 0;
+      min-width: 0;
+    }
 
-  pre {
-    white-space: pre-wrap;
-    font-size: 1.3em;
-    line-height: 1.6;
-    font-family: inherit;
-    margin: 0;
-  }
+    /* Panneau images (colonne large plafonnée) */
+    .media {
+      flex: 0 0 clamp(360px, 40vw, 640px);
+      max-width: 50%;
+    }
 
-  a { text-decoration: none; color: #0077cc; }
-  a:hover { text-decoration: underline; }
+    /* Grille de colonnes (a, b, c...) ; chaque colonne empile ses images verticalement */
+    .gallery {
+      display: grid;
+      grid-auto-flow: column;
+      grid-auto-columns: minmax(var(--colw-min), var(--colw-max));
+      gap: var(--gap);
+      align-items: start;
+    }
 
-  /* Mobile : on empile */
-  @media (max-width: 768px) {
-    .layout { flex-direction: column; }
-    .image { max-width: 100%; flex-basis: auto; }
-  }
+    /* Une “colonne” de la galerie = pile verticale d’images */
+    .col {
+      display: flex;
+      flex-direction: column;
+      gap: var(--gap);
+    }
+
+    .col img {
+      display: block;
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+      border-radius: 8px;
+      box-shadow: 0 1px 3px rgba(0,0,0,.08);
+    }
+
+    pre {
+      white-space: pre-wrap;
+      font-size: 1.3em;
+      line-height: 1.6;
+      font-family: inherit;
+      margin: 0;
+    }
+
+    a { text-decoration: none; color: #0077cc; }
+    a:hover { text-decoration: underline; }
+
+    /* Mobile : on empile */
+    @media (max-width: 768px) {
+      .layout { flex-direction: column; }
+      .media { max-width: 100%; flex-basis: auto; }
+    }
   </style>
 </head>
 <body>
@@ -67,25 +91,24 @@
       <pre>{{ contenu }}</pre>
     </div>
 
-    {% if image_url %}
-      <aside class="image">
-	  <img src="{{ image_url }}" alt="Illustration de {{ nom }}" loading="lazy">
-	  
-	  
-	   
-	  
-	  
-       
-      
-	  
-	
-	  
-	  </aside>
+    {% if image_columns and image_columns|length > 0 %}
+      <aside class="media">
+        <div class="gallery">
+          {% for col in image_columns %}
+            <div class="col">
+              {% for img in col %}
+                <img src="{{ img.url }}" alt="{{ img.alt }}" loading="lazy" />
+              {% endfor %}
+            </div>
+          {% endfor %}
+        </div>
+      </aside>
     {% endif %}
   </div>
 
   <p><a href="/">← Retour à l’accueil</a></p>
 </body>
 </html>
+
 
 
