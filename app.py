@@ -1,5 +1,5 @@
 from flask import Flask, render_template, url_for, abort
-import os
+import os, re
 
 app = Flask(__name__)  # static/ est utilisé par défaut comme dossier de fichiers statiques
 
@@ -9,12 +9,82 @@ CHAPITRES = [
     "chapitre9","chapitre10", "chapitre11", "chapitre12",
     "chapitre13","chapitre14","chapitre15","chapitre16",
     "chapitre17","chapitre18","chapitre19","chapitre20",
-     "chapitre21", "chapitre22", "chapitre23", "chapitre24",
+    "chapitre21", "chapitre22", "chapitre23", "chapitre24",
     "chapitre25","chapitre26","chapitre27","chapitre28",
     "chapitre29","chapitre30", "chapitre31", "chapitre32",
-    "chapitre33","chapitre34","chapitre35 ","chapitre36",
+    "chapitre33","chapitre34","chapitre35","chapitre36",
     "chapitre37",
 ]
+
+VALID_EXTS = {".jpg", ".jpeg", ".png", ".webp", ".gif"}
+
+# --- utils --------------------------------------------------------------------
+
+_suffix_re = re.compile(r'^(?:[_\-])?([a-z])(\d+)$')  # _a1 / -b2 / a3
+
+def _parse_variant(basename: str, nom: str):
+    """
+    basename = nom de fichier sans extension (p.ex. 'chapitre1_a2')
+    nom = nom du chapitre (p.ex. 'chapitre1')
+    Retourne:
+      - ('a', 0, True) pour l’image principale (nom.jpg)
+      - (letter, index_int, False) pour les variantes nom_a1, nom-b2, noma3, etc.
+      - None si non conforme
+    """
+    if not basename.startswith(nom):
+        return None
+    rest = basename[len(nom):]  # '', '_a1', '-b2', 'a3'...
+    if rest == "":
+        return ("a", 0, True)  # image principale dans la colonne 'a' en tête
+    m = _suffix_re.match(rest)
+    if m:
+        letter = m.group(1).lower()
+        idx = int(m.group(2))
+        return (letter, idx, False)
+    # tenter le format sans séparateur (ex: 'a3' déjà géré plus haut, donc on tombe ici si autre chose)
+    return None
+
+def _collect_images(nom: str):
+    """
+    Balaye static/ et construit une liste de colonnes d’images.
+    Chaque colonne = liste d’objets {url, alt}, dans l’ordre.
+    """
+    if not os.path.isdir(app.static_folder):
+        return []
+
+    variants = []  # (letter, idx, is_main, url)
+    for fname in os.listdir(app.static_folder):
+        root, ext = os.path.splitext(fname)
+        if ext.lower() not in VALID_EXTS:
+            continue
+        parsed = _parse_variant(root, nom)
+        if not parsed:
+            continue
+        letter, idx, is_main = parsed
+        url = url_for("static", filename=fname)
+        variants.append((letter, idx, is_main, url))
+
+    if not variants:
+        return []
+
+    # trier : d’abord par lettre (a, b, c...), puis par index (0,1,2...)
+    variants.sort(key=lambda t: (t[0], t[1]))
+
+    # regrouper par lettre
+    columns = {}
+    for letter, idx, is_main, url in variants:
+        columns.setdefault(letter, [])
+        columns[letter].append({
+            "url": url,
+            "alt": f"Illustration {nom} - série {letter} #{idx}"
+        })
+
+    # on veut l’ordre a, b, c... (si 'a' n’existe pas, l’ordre naturel des clés)
+    ordered_letters = sorted(columns.keys())
+    return [columns[letter] for letter in ordered_letters]
+
+# -----------------------------------------------------------------------------
+
 @app.route("/")
 def accueil():
     return render_template("index.html", chapitres=CHAPITRES)
@@ -33,22 +103,19 @@ def afficher_chapitre(nom):
     except FileNotFoundError:
         contenu = "Chapitre introuvable."
 
-    # Vérifie si une image existe dans static/ avec le même nom (ex: static/chapitre1.jpg)
-    # Tu peux changer l'extension si tu utilises .png/.webp
-    image_rel = f"{nom}.jpg"
-    image_abs = os.path.join(app.static_folder, image_rel)
-    image_exists = os.path.exists(image_abs)
+    # Récupère les images par colonnes
+    image_columns = _collect_images(nom)  # liste de listes (colonnes -> images empilées)
 
-    image_url = url_for("static", filename=image_rel) if image_exists else None
-
-    return render_template("chapitre.html", nom=nom, contenu=contenu, image_url=image_url)
+    return render_template(
+        "chapitre.html",
+        nom=nom,
+        contenu=contenu,
+        image_columns=image_columns,
+    )
 
 if __name__ == "__main__":
-    # Render utilise le port défini par PORT ; si tu testes en local tu peux garder 10000.
-    import os
     port = int(os.environ.get("PORT", 10000))
     app.run(host="0.0.0.0", port=port)
-
 
 
 
