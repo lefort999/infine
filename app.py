@@ -4,7 +4,18 @@ import os, re
 app = Flask(__name__)  # static/ est utilisé par défaut comme dossier de fichiers statiques
 
 CHAPITRES = [
-    "chapitre1", "chapitre2", "chapitre3", "chapitre4",
+    Votre article est pertinent cependant il y manque quelque chose. car je n'y vois pas la moindre trace, d'un soupçon, d'une esquisse, du dessin, de ce que serait pour vous, "le grand dessein". Alors permettez moi de vous soumettre ceci 
+image.png
+
+Le baron de Fauveau de Fremilly en son château de Bourneville dédia à mon ancêtre, J-Baptiste son garde-chasses quelques lignes dans son "recueil de poésies" (Gallica")
+
+
+image.png
+Le "grand dessein" ne serait-il pas "le vrai bonheur" tout simplement.  ?
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+En cette période budgétaire agitée, FR3 donne la parole à une pauvre dame désargentée:" je me fous de la fortune et du salaire de Mr Bernard Arnault, ce que je souhaite, moi c'est d'avoir, tous les mois, un tout petit peu plus de 1000 €"   Un grand dessein ?
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    "chapitre0","chapitre1", "chapitre2", "chapitre3", "chapitre4",
     "chapitre5","chapitre6","chapitre7","chapitre8",
     "chapitre9","chapitre10", "chapitre11", "chapitre12",
     "chapitre13","chapitre14","chapitre15","chapitre16",
@@ -116,6 +127,7 @@ def afficher_chapitre(nom):
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 10000))
     app.run(host="0.0.0.0", port=port)
+
 
 
 
