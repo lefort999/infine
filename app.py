@@ -14,7 +14,7 @@ CHAPITRES = [
     "chapitre25","chapitre26","chapitre27","chapitre28",
     "chapitre29","chapitre30", "chapitre31", "chapitre32",
     "chapitre33","chapitre34","chapitre35","chapitre36",
-    "chapitre37","chapitre48","chapitre96",
+    "chapitre37","chapitre48","chapitre96","chapitre2096",
 ]
 
 VALID_EXTS = {".jpg", ".jpeg", ".png", ".webp", ".gif"}
@@ -117,6 +117,7 @@ def afficher_chapitre(nom):
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 10000))
     app.run(host="0.0.0.0", port=port)
+
 
 
 
