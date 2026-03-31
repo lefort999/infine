@@ -16,7 +16,7 @@ CHAPITRES = [
     "chapitre33","chapitre34","chapitre35","chapitre36",
     "chapitre37","chapitre48","chapitre96","chapitre128",
     "chapitre256","chapitre512","chapitre1024","chapitre2048","chapitre3000","chapitre3001",
-    "chapitre3302","chapitre3003","chapitre3004","chapitre3005","chapitre3006","chapitre3007",
+    "chapitre3302","chapitre3003","chapitre3004","chapitre3005","chapitre3006","chapitre3007","chapitre4000,
 ]
 
 VALID_EXTS = {".jpg", ".jpeg", ".png", ".webp", ".gif"}
